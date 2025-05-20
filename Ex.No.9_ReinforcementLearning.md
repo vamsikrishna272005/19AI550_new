@@ -26,17 +26,14 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
-
 public class MoveToTargetAgent : Agent
 {
     public Transform targetTransform;
     private Rigidbody agentRb;
-
     public override void Initialize()
     {
         agentRb = GetComponent<Rigidbody>();
     }
-
     public override void OnEpisodeBegin()
     {
         // Reset agent and target position
@@ -44,30 +41,22 @@ public class MoveToTargetAgent : Agent
         transform.localPosition = new Vector3(Random.Range(-4f, 4f), 0.5f, Random.Range(-4f, 4f));
         targetTransform.localPosition = new Vector3(Random.Range(-4f, 4f), 0.5f, Random.Range(-4f, 4f));
     }
-
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Positions
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(targetTransform.localPosition);
-        // Agent velocity
         sensor.AddObservation(agentRb.velocity);
     }
-
     public override void OnActionReceived(ActionBuffers actions)
     {
         Vector3 move = new Vector3(actions.ContinuousActions[0], 0, actions.ContinuousActions[1]);
         agentRb.AddForce(move * 10);
-
-        // Reward
         float distanceToTarget = Vector3.Distance(transform.localPosition, targetTransform.localPosition);
         if (distanceToTarget < 1.2f)
         {
             SetReward(1.0f);
             EndEpisode();
         }
-
-        // Fail condition
         if (transform.localPosition.y < 0)
         {
             EndEpisode();
