@@ -107,14 +107,5 @@ behaviors:
 ```
 ### Output:
 ![WhatsApp Image 2025-05-19 at 13 25 54_adf4f7e4](https://github.com/user-attachments/assets/245d9080-7668-4d88-b438-8096250c950a)
-
-
-
-
-
-
-
-
-
 ### Result:
 Thus the AI character was trained using reinforcement learning and is executed successfully.
